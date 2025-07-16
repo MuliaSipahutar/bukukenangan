@@ -568,14 +568,14 @@
 
       /* Gaya Baru untuk Tombol Musik */
   .music-player {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
   
   .music-btn {
     position: relative;
@@ -1517,17 +1517,19 @@
 }
 
 /* Gaya Dasar Footer */
-  footer {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #1a1a2e 0%, #6c4f4f 100%);
-    color: #fff;
-    text-align: center;
-    padding: 0.5px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
+ footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  padding: 10px 0;
+  background: linear-gradient(135deg, #1a1a2e 0%, #6c4f4f 100%);
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
 
   /* Efek Cahaya Bergerak */
   footer::before {
