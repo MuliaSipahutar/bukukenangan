@@ -1515,12 +1515,177 @@
   font-size: 1.1rem;
   line-height: 1.5;
 }
+
+/* Gaya Dasar Footer */
+  footer {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #6c4f4f 100%);
+    color: #fff;
+    text-align: center;
+    padding: 0.5px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Efek Cahaya Bergerak */
+  footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    animation: lightEffect 8s infinite;
+  }
+
+  @keyframes lightEffect {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+  }
+
+  /* Teks Copyright */
+  footer p {
+    margin: 0;
+    font-size: 0.8rem;
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+
+  /* Efek Hover pada Teks */
+  footer p:hover {
+    transform: scale(1.05);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+
+  /* Ikon */
+  footer .icons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  footer .icons a {
+    color: #fff;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+  }
+
+  footer .icons a:hover {
+    transform: translateY(-5px) scale(1.2);
+    color: #4cc9f0;
+  }
+
+  /* Efek Partikel */
+  footer .particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 20%;
+    pointer-events: none;
+  }
+
+  /* Responsif */
+  @media (max-width: 768px) {
+    footer p {
+      font-size: 0.8rem;
+    }
+    
+    footer .icons {
+      gap: 10px;
+    }
+    
+    footer::before {
+      animation: lightEffect 12s infinite;
+    }
+  }
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5; /* Pastikan lebih rendah dari tombol navigasi (z-index: 10) */
+  padding: 10px 0;
+  background: linear-gradient(135deg, #1a1a2e 0%, #6c4f4f 100%);
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+  
+.book-container {
+  position: relative;
+  width: 95%;
+  max-width: 1000px;
+  height: 85vh; /* Kurangi height agar ada ruang untuk footer */
+  perspective: 2500px;
+  z-index: 1;
+  margin-bottom: 60px; /* Tambahkan margin bottom */
+}
+
+.navigation {
+  position: absolute;
+  bottom: 70px; /* Naikkan sedikit dari footer */
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+
     </style>
   </head>
 
   <body>
     <div class="memory-glow"></div>
     <div class="music-player">
+    <footer>
+  <p>&copy; 2025 Mulia Risky Sipahutar. All rights reserved.</p>
+  <div class="icons">
+  <!-- Facebook -->
+  <a href="https://www.facebook.com/share/16Mv6xxjnQ/" 
+     aria-label="Facebook" 
+     target="_blank" 
+     rel="noopener noreferrer">
+     <i class="fab fa-facebook-f"></i>
+  </a>
+
+  <!-- Instagram -->
+  <a href="https://www.instagram.com/mulia_sipahutar?igsh=MThuazlkam9tNmNoYQ==" 
+     aria-label="Instagram" 
+     target="_blank" 
+     rel="noopener noreferrer">
+     <i class="fab fa-instagram"></i>
+  </a>
+
+  <!-- LinkedIn (Note: This currently points to Facebook - replace with actual LinkedIn URL) -->
+  <a href="https://www.linkedin.com/in/mulia-risky-sipahutar-029283223" 
+     aria-label="LinkedIn" 
+     target="_blank" 
+     rel="noopener noreferrer">
+     <i class="fab fa-linkedin"></i>
+  </a>
+
+  <!-- Gmail (opens email client, doesn't need new tab) -->
+  <a href="mailto:mr.sipahutar21@gmail.com" 
+     aria-label="Gmail">
+     <i class="fas fa-envelope"></i>
+  </a>
+</div>
+</footer>
+
   <button class="music-btn" id="musicControl">
     <i class="fas fa-music"></i>
   </button>
@@ -2020,6 +2185,9 @@ Tapi prinsip, kenangan, dan pelajaran dari MR. DIY akan selalu saya bawa.
       musicControl.classList.remove('active');
     }, 200);
   });
+  
+  
     </script>
+
   </body>
 </html>
