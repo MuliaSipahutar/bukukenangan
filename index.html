@@ -1102,6 +1102,52 @@
           transform: scale(1.01);
         }
       }
+
+      @media (max-width: 768px) {
+  .id-card-container {
+    right: 50% !important;
+    top: 20px !important;
+    transform: translateX(50%) !important;
+  }
+  
+  .id-card-string {
+    display: none;
+  }
+  
+  .id-card {
+    width: 80px !important;
+    height: 120px !important;
+  }
+  
+  .id-card-photo {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  .id-card-name {
+    font-size: 0.7rem !important;
+  }
+  
+  .id-card-title {
+    font-size: 0.6rem !important;
+  }
+  
+  .id-card-qr {
+    width: 30px !important;
+    height: 30px !important;
+  }
+}
+
+.id-card-container {
+  transition: all 0.5s ease;
+  z-index: 100; /* Pastikan di atas semua elemen */
+}
+
+/* Saat buku terbuka di mobile */
+.buku-terbuka .id-card-container {
+  transform: translateX(50%) scale(0.8) !important;
+  top: 10px !important;
+}
     </style>
   </head>
 
@@ -1546,6 +1592,8 @@ Tapi prinsip, kenangan, dan pelajaran dari MR.DY akan selalu saya bawa.
         candleLight.style.top = `${10 + Math.random() * 20}%`;
         candleLight.style.left = `${5 + Math.random() * 15}%`;
       }, 3000);
+
+      
     </script>
   </body>
 </html>
