@@ -168,7 +168,7 @@
         font-family: "Quicksand", sans-serif;
         font-weight: bold;
         font-size: 0.9rem;
-        color: #333;
+        color: #000000;
         text-align: center;
         margin-bottom: 5px;
       }
@@ -184,7 +184,7 @@
       .id-card-qr {
         width: 60px;
         height: 60px;
-        background: #fff;
+        background: #ff0303;
         padding: 5px;
         border-radius: 5px;
         display: flex;
@@ -566,36 +566,118 @@
         transform: scale(1.2);
       }
 
-      /* Kontrol Musik */
-      .music-control {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        z-index: 100;
-        background: rgba(0, 0, 0, 0.5);
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .music-control:hover {
-        background: rgba(0, 0, 0, 0.7);
-        transform: scale(1.1);
-      }
-
-      .music-control i {
-        color: white;
-        font-size: 20px;
-      }
-
-      audio {
-        display: none;
-      }
+      /* Gaya Baru untuk Tombol Musik */
+  .music-player {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .music-btn {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #ff8a00, #e52e71);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    animation: pulse 2s infinite;
+  }
+  
+  .music-btn::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+  
+  .music-btn:hover {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 0 8px 25px rgba(229, 46, 113, 0.6);
+  }
+  
+  .music-btn:hover::before {
+    transform: translateX(100%);
+  }
+  
+  .music-btn i {
+    color: white;
+    font-size: 24px;
+    transition: transform 0.3s ease;
+  }
+  
+  .music-btn.active i {
+    transform: scale(0.9);
+  }
+  
+  .music-wave {
+    display: none;
+    align-items: flex-end;
+    height: 40px;
+    gap: 3px;
+  }
+  
+  .music-wave span {
+    display: block;
+    width: 4px;
+    background: linear-gradient(to top, #ff8a00, #e52e71);
+    border-radius: 3px;
+    animation: wave 1.5s infinite ease-in-out;
+  }
+  
+  .music-wave span:nth-child(1) { height: 10px; animation-delay: 0.1s; }
+  .music-wave span:nth-child(2) { height: 20px; animation-delay: 0.3s; }
+  .music-wave span:nth-child(3) { height: 30px; animation-delay: 0.5s; }
+  .music-wave span:nth-child(4) { height: 20px; animation-delay: 0.7s; }
+  .music-wave span:nth-child(5) { height: 10px; animation-delay: 0.9s; }
+  
+  @keyframes wave {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.3); }
+  }
+  
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 5px 15px rgba(229, 46, 113, 0.4); }
+    50% { box-shadow: 0 5px 20px rgba(229, 46, 113, 0.8); }
+  }
+  
+  /* Responsif */
+  @media (max-width: 768px) {
+    .music-player {
+      bottom: 15px;
+      left: 15px;
+    }
+    
+    .music-btn {
+      width: 50px;
+      height: 50px;
+    }
+    
+    .music-btn i {
+      font-size: 20px;
+    }
+    
+    .music-wave {
+      height: 30px;
+    }
+    
+    .music-wave span {
+      width: 3px;
+    }
+  }
 
       /* Tombol Fullscreen */
       .fullscreen-btn {
@@ -1425,11 +1507,28 @@
   top: 10px !important;
   transition: all 0.5s ease;
 }
+
     </style>
   </head>
 
   <body>
     <div class="memory-glow"></div>
+    <div class="music-player">
+  <button class="music-btn" id="musicControl">
+    <i class="fas fa-music"></i>
+  </button>
+  <div class="music-wave" id="musicWave">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<audio id="backgroundMusic" loop>
+  <source src="musiku.mp3" type="audio/mpeg" />
+</audio>
 
     <div class="book-container">
       <!-- ID Card dengan tali yang bergantung -->
@@ -1870,12 +1969,49 @@ Tapi prinsip, kenangan, dan pelajaran dari MR.DY akan selalu saya bawa.
         candleLight.style.left = `${5 + Math.random() * 15}%`;
       }, 3000);
 
-      // Di dalam event listener bukaBuku()
-document.body.classList.add('buku-terbuka');
-
-// Di dalam event listener tutupBuku()
-document.body.classList.remove('buku-terbuka');
-      
+      const musicControl = document.getElementById('musicControl');
+  const musicWave = document.getElementById('musicWave');
+  const backgroundMusic = document.getElementById('backgroundMusic');
+  let isPlaying = false;
+  
+  // Coba putar musik otomatis
+  document.addEventListener('DOMContentLoaded', () => {
+    const playPromise = backgroundMusic.play();
+    
+    if (playPromise !== undefined) {
+      playPromise
+        .then(_ => {
+          isPlaying = true;
+          musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+          musicWave.style.display = 'flex';
+        })
+        .catch(error => {
+          isPlaying = false;
+          musicControl.innerHTML = '<i class="fas fa-music"></i>';
+          musicWave.style.display = 'none';
+        });
+    }
+  });
+  
+  // Kontrol musik
+  musicControl.addEventListener('click', () => {
+    if (isPlaying) {
+      backgroundMusic.pause();
+      musicControl.innerHTML = '<i class="fas fa-music"></i>';
+      musicWave.style.display = 'none';
+    } else {
+      backgroundMusic.play();
+      musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+      musicWave.style.display = 'flex';
+    }
+    isPlaying = !isPlaying;
+    
+    // Efek tekan tombol
+    musicControl.classList.add('active');
+    setTimeout(() => {
+      musicControl.classList.remove('active');
+    }, 200);
+  });
     </script>
   </body>
 </html>
