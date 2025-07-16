@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buku Kenangan Spesial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: url("https://www.transparenttextures.com/patterns/old-mathematics.png")
+            repeat,
+          linear-gradient(to bottom, #403b37, #1c1b18);
+        background-blend-mode: overlay;
+        font-family: "Playfair Display", serif;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+        touch-action: pan-y;
+      }
+
+      .memory-glow {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 235, 180, 0.06),
+          transparent 70%
+        );
+        z-index: 0;
+        animation: glow 10s ease-in-out infinite;
+      }
+
+      @keyframes glow {
+        0%,
+        100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 0.9;
+        }
+      }
+
+      .book-container {
+        position: relative;
+        width: 95%;
+        max-width: 1000px;
+        height: 90vh;
+        perspective: 2500px;
+        z-index: 1;
+      }
+
+      /* ID Card dengan tali yang realistis */
+      .id-card-container {
+        position: absolute;
+        right: -100px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        transition: all 1s ease;
+      }
+
+      .id-card-string {
+        position: absolute;
+        top: -50px;
+        left: 50%;
+        width: 2px;
+        height: 60px;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          #e4d5b7,
+          #c3a780,
+          #e4d5b7,
+          transparent
+        );
+        transform-origin: top center;
+        animation: swing 5s infinite ease-in-out;
+      }
+
+      .id-card {
+        position: relative;
+        width: 150px;
+        height: 200px;
+        background: linear-gradient(135deg, #ffcc00 0%, #ffcc00 100%);
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 10px 30px rgba(161, 138, 138, 0.3);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(3, 3, 0, 0.97);
+        overflow: hidden;
+        transform-origin: top center;
+        transition: all 0.5s ease;
+      }
+
+      .id-card-hole {
+        position: absolute;
+        top: -5px;
+        left: 50%;
+        width: 10px;
+        height: 10px;
+        background: #333;
+        border-radius: 50%;
+        transform: translateX(-50%);
+      }
+
+      .id-card:hover {
+        animation: cardTwist 0.8s ease-in-out;
+      }
+
+      @keyframes swing {
+        0%,
+        100% {
+          transform: rotate(-3deg);
+        }
+        50% {
+          transform: rotate(3deg);
+        }
+      }
+
+      @keyframes cardTwist {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(5deg);
+        }
+        75% {
+          transform: rotate(-5deg);
+        }
+      }
+
+      .id-card-photo {
+        width: 50px;
+        height: 85px;
+        border-radius: 50%;
+        border: 3px solid rgb(13, 13, 13);
+        object-fit: cover;
+        margin-bottom: 0px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+      }
+
+      .id-card:hover .id-card-photo {
+        transform: scale(1.05);
+      }
+
+      .id-card-name {
+        font-family: "Quicksand", sans-serif;
+        font-weight: bold;
+        font-size: 0.9rem;
+        color: #333;
+        text-align: center;
+        margin-bottom: 5px;
+      }
+
+      .id-card-title {
+        font-family: "Quicksand", sans-serif;
+        font-size: 0.8rem;
+        color: #000000;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .id-card-qr {
+        width: 60px;
+        height: 60px;
+        background: #fff;
+        padding: 5px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.6rem;
+        color: #333;
+        text-align: center;
+        border: 1px solid #ddd;
+      }
+
+      /* Cover Buku */
+      .book-cover {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: url("https://www.transparenttextures.com/patterns/leather.png"),
+          linear-gradient(135deg, #3a3a3a 0%, #1a1a1a 100%);
+        border-radius: 15px 5px 5px 15px;
+        box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+        z-index: 2;
+        transform-style: preserve-3d;
+        transition: transform 1.5s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #e4d5b7;
+        border-right: 15px solid #2a2118;
+        cursor: pointer;
+        transform-origin: left center;
+      }
+
+      .book-cover::before {
+        content: "";
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        width: 30px;
+        height: calc(100% - 20px);
+        background: linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0.05),
+          transparent
+        );
+        transform: skewY(-45deg);
+      }
+
+      .book-cover-title {
+        font-family: "Cinzel Decorative", cursive;
+        font-size: clamp(1.5rem, 4vw, 2.8rem);
+        text-align: center;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+        animation: titleGlow 3s ease infinite alternate;
+      }
+
+      .book-cover-subtitle {
+        font-family: "Dancing Script", cursive;
+        font-size: clamp(1rem, 2vw, 1.5rem);
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .book-cover-open {
+        font-family: "Quicksand", sans-serif;
+        padding: 10px 25px;
+        background: linear-gradient(to bottom, #6e5849, #3e2f25);
+        color: #ffd;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .book-cover-open:hover {
+        background: linear-gradient(to bottom, #8b6b55, #463528);
+        transform: scale(1.05);
+      }
+
+      .book-cover-open::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          to bottom right,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0) 45%,
+          rgba(255, 255, 255, 0.2) 48%,
+          rgba(255, 255, 255, 0.2) 52%,
+          rgba(255, 255, 255, 0) 55%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        transform: rotate(30deg);
+        transition: all 0.5s ease;
+      }
+
+      .book-cover-open:hover::after {
+        left: 100%;
+      }
+
+      @keyframes titleGlow {
+        from {
+          text-shadow: 2px 2px 8px rgba(255, 215, 150, 0.6);
+        }
+        to {
+          text-shadow: 0 0 15px rgba(255, 255, 200, 0.9);
+        }
+      }
+
+      /* Back Cover */
+      .book-back-cover {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: url("https://www.transparenttextures.com/patterns/leather.png"),
+          linear-gradient(135deg, #1a1a1a 0%, #3a3a3a 100%);
+        border-radius: 5px 15px 15px 5px;
+        box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+        z-index: 0;
+        transform-style: preserve-3d;
+        transition: transform 1.5s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #e4a017;
+        border-left: 15px solid #2a2118;
+        transform-origin: right center;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .book-back-cover::before {
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: 15px;
+        width: 30px;
+        height: calc(100% - 20px);
+        background: linear-gradient(
+          to left,
+          rgba(238, 10, 10, 0.05),
+          transparent
+        );
+        transform: skewY(45deg);
+      }
+
+      /* Halaman Buku dengan efek angin */
+      .pages-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        display: none;
+        transform-style: preserve-3d;
+      }
+
+      .page {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform-origin: left center;
+        background: url("https://www.transparenttextures.com/patterns/paper-fibers.png")
+          repeat #eee6ff;
+        border-radius: 5px;
+        overflow: hidden;
+        opacity: 0;
+        transform: rotateY(0deg);
+        transition: transform 1.2s cubic-bezier(0.18, 0.89, 0.32, 1.28),
+          opacity 0.8s ease;
+        z-index: 1;
+        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1),
+          0 5px 20px rgba(0, 0, 0, 0.2);
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .page.visible {
+        opacity: 1;
+        z-index: 5;
+        animation: pageRipple 8s infinite ease-in-out;
+      }
+
+      @keyframes pageRipple {
+        0%,
+        100% {
+          transform: rotateY(0deg) translateY(0);
+        }
+        25% {
+          transform: rotateY(-1deg) translateY(-2px);
+        }
+        50% {
+          transform: rotateY(1deg) translateY(1px);
+        }
+        75% {
+          transform: rotateY(0.5deg) translateY(-1px);
+        }
+      }
+
+      .page.flip {
+        transform: rotateY(-180deg);
+        opacity: 0;
+      }
+
+      .page-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      .page img {
+        width: 100%;
+        max-height: 70%;
+        object-fit: contain;
+        filter: contrast(1.05) brightness(0.95);
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        transition: transform 0.5s ease;
+        cursor: zoom-in;
+        animation: photoFloat 6s infinite ease-in-out;
+      }
+
+      @keyframes photoFloat {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0.2deg);
+        }
+        50% {
+          transform: translateY(-5px) rotate(-0.2deg);
+        }
+      }
+
+      .page img.zoomed {
+        transform: scale(1.8) translateY(0) !important;
+        cursor: zoom-out;
+        z-index: 10;
+        position: relative;
+        animation: none;
+      }
+
+      .caption {
+        margin-top: 20px;
+        background: rgba(0, 0, 0, 0.5);
+        color: #fdf6e3;
+        font-size: 1.1rem;
+        text-align: center;
+        font-family: "Quicksand", sans-serif;
+        border-radius: 12px;
+        padding: 12px 20px;
+        max-width: 90%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+        animation: captionFloat 7s infinite ease-in-out;
+      }
+
+      @keyframes captionFloat {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0.5deg);
+        }
+        50% {
+          transform: translateY(-3px) rotate(-0.5deg);
+        }
+      }
+
+      .caption:hover {
+        transform: translateY(-5px) rotate(1deg);
+        background: rgba(0, 0, 0, 0.6);
+      }
+
+      /* Navigasi */
+      .navigation {
+        position: absolute;
+        bottom: 10px;
+        width: 100%;
+        text-align: center;
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      .navigation button {
+        padding: 12px 30px;
+        background: linear-gradient(to bottom, #6e5849, #3e2f25);
+        color: #ffd;
+        border: none;
+        cursor: pointer;
+        margin: 0;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-family: "Playfair Display", serif;
+        font-weight: bold;
+        transition: all 0.4s ease;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .navigation button:hover {
+        background: linear-gradient(to bottom, #8b6b55, #463528);
+        color: #fff;
+        transform: scale(1.05);
+      }
+
+      .navigation button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .close-book-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 10;
+        background: rgba(0, 0, 0, 0.5);
+        border: none;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .close-book-btn:hover {
+        background: rgba(0, 0, 0, 0.7);
+        transform: scale(1.1);
+      }
+
+      .page-indicators {
+        position: absolute;
+        bottom: 80px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        z-index: 10;
+      }
+
+      .page-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .page-indicator.active {
+        background: rgba(255, 255, 255, 0.9);
+        transform: scale(1.2);
+      }
+
+      /* Kontrol Musik */
+      .music-control {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .music-control:hover {
+        background: rgba(0, 0, 0, 0.7);
+        transform: scale(1.1);
+      }
+
+      .music-control i {
+        color: white;
+        font-size: 20px;
+      }
+
+      audio {
+        display: none;
+      }
+
+      /* Tombol Fullscreen */
+      .fullscreen-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .fullscreen-btn:hover {
+        background: rgba(0, 0, 0, 0.7);
+        transform: scale(1.1);
+      }
+
+      .fullscreen-btn i {
+        color: white;
+        font-size: 20px;
+      }
+
+      /* Petunjuk Geser */
+      .swipe-hint {
+        position: absolute;
+        bottom: 120px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-family: "Quicksand", sans-serif;
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        opacity: 0.8;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* Responsif */
+      @media (max-width: 768px) {
+        .book-container {
+          height: 95vh;
+        }
+
+        .id-card-container {
+          right: -80px;
+        }
+
+        .id-card {
+          width: 120px;
+          height: 160px;
+          padding: 10px;
+        }
+
+        .id-card-photo {
+          width: 60px;
+          height: 60px;
+        }
+
+        .id-card-qr {
+          width: 50px;
+          height: 50px;
+          font-size: 0.5rem;
+        }
+
+        .page {
+          padding: 20px;
+        }
+
+        .page img.zoomed {
+          transform: scale(1.4);
+        }
+
+        .caption {
+          font-size: 1rem;
+          padding: 10px 14px;
+        }
+
+        .navigation button {
+          font-size: 0.95rem;
+          padding: 10px 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .id-card-container {
+          right: -60px;
+        }
+
+        .id-card {
+          width: 100px;
+          height: 140px;
+          padding: 8px;
+        }
+
+        .id-card-photo {
+          width: 50px;
+          height: 50px;
+        }
+
+        .id-card-name {
+          font-size: 0.7rem;
+        }
+
+        .id-card-title {
+          font-size: 0.6rem;
+        }
+
+        .id-card-qr {
+          width: 40px;
+          height: 40px;
+          font-size: 0.4rem;
+        }
+
+        .navigation {
+          gap: 8px;
+        }
+
+        .navigation button {
+          padding: 8px 16px;
+          font-size: 0.85rem;
+        }
+
+        .swipe-hint {
+          bottom: 100px;
+          font-size: 0.8rem;
+        }
+
+        .page-indicators {
+          bottom: 70px;
+        }
+      }
+
+      /* Perbaikan Tali ID Card */
+      .id-card-string {
+        position: absolute;
+        top: -60px;
+        left: 50%;
+        width: 4px;
+        height: 80px;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          #d4af37,
+          #c3a780,
+          #d4af37,
+          transparent
+        );
+        transform-origin: top center;
+        animation: swing 6s infinite ease-in-out;
+        border-radius: 4px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Simpul tali */
+      .id-card-string::before {
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: -8px;
+        width: 20px;
+        height: 20px;
+        background: #d4af37;
+        border-radius: 50%;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+      }
+
+      .id-card-string::after {
+        content: "";
+        position: absolute;
+        top: 25px;
+        left: -4px;
+        width: 12px;
+        height: 12px;
+        background: #c3a780;
+        border-radius: 50%;
+      }
+
+      @keyframes swing {
+        0%,
+        100% {
+          transform: translateX(-50%) rotate(-5deg);
+        }
+        50% {
+          transform: translateX(-50%) rotate(5deg);
+        }
+      }
+
+      /* Perbaikan ID Card */
+      .id-card {
+        position: relative;
+        width: 150px;
+        height: 200px;
+        background: linear-gradient(135deg, #ffcc00 0%, #ff9900 100%);
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 10px 30px rgba(161, 138, 138, 0.3), 0 0 0 2px #fff,
+          0 0 0 4px #d4af37;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid rgba(3, 3, 0, 0.97);
+        overflow: hidden;
+        transform-origin: top center;
+        transition: all 0.5s ease;
+      }
+
+      /* Perbaikan Foto Profil */
+      .id-card-photo {
+        width: 65px;
+        height: 80px;
+        border-radius: 50%;
+        border: 3px solid #fff;
+        object-fit: cover;
+        margin-bottom: 10px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        background: #ff0000;
+        padding: 2px;
+      }
+
+      /* Perbaikan QR Code/Logo */
+      .id-card-qr {
+        width: 60px;
+        height: 60px;
+        background: #fff;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        border: 1px solid #ddd;
+        transition: all 0.3s ease;
+        overflow: hidden;
+      }
+
+      .id-card-qr img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+      }
+
+      .id-card:hover .id-card-qr img {
+        transform: scale(1.05);
+      }
+
+      /* Responsif untuk ID Card */
+      @media (max-width: 768px) {
+        .id-card-container {
+          right: -70px;
+        }
+
+        .id-card {
+          width: 130px;
+          height: 180px;
+          padding: 12px;
+        }
+
+        .id-card-photo {
+          width: 60px;
+          height: 60px;
+        }
+
+        .id-card-qr {
+          width: 80px;
+          height: 1000px;
+        }
+
+        .id-card-string {
+          height: 70px;
+          top: -50px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .id-card-container {
+          right: -50px;
+        }
+
+        .id-card {
+          width: 110px;
+          height: 160px;
+          padding: 10px;
+        }
+
+        .id-card-photo {
+          width: 50px;
+          height: 50px;
+        }
+
+        .id-card-qr {
+          width: 40px;
+          height: 40px;
+        }
+
+        .id-card-string {
+          height: 60px;
+          top: -40px;
+        }
+      }
+
+      /* Halaman buku vintage */
+      .page-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        background: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+        border-radius: 3px;
+        padding: 20px;
+      }
+
+      /* Foto dengan bingkai vintage */
+      .page img {
+        width: 100%;
+        max-height: 70%;
+        object-fit: contain;
+        filter: sepia(0.3) contrast(1.1) brightness(0.95);
+        border-radius: 5px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3), 0 0 0 10px #f5f0e6,
+          0 0 0 12px #d4af37;
+        transition: all 0.5s ease;
+        cursor: zoom-in;
+        animation: photoFloat 6s infinite ease-in-out;
+        position: relative;
+      }
+
+      /* Efek tinta tua pada caption */
+      .caption {
+        margin-top: 25px;
+        background: rgba(70, 50, 20, 0.7);
+        color: #f5f0e6;
+        font-size: 1.1rem;
+        text-align: center;
+        font-family: "Dancing Script", cursive;
+        border-radius: 5px;
+        padding: 15px 25px;
+        max-width: 90%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4),
+          inset 0 0 10px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(3px);
+        transition: all 0.3s ease;
+        border-left: 4px solid #d4af37;
+        position: relative;
+      }
+
+      /* Efek pena pada caption */
+      .caption::before {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 10px;
+        width: 20px;
+        height: 20px;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23d4af37" d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"/></svg>');
+        opacity: 0.5;
+      }
+
+      /* Efek debu buku saat membuka */
+      @keyframes dustParticles {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 0;
+        }
+        20% {
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(-100px) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      .dust-particle {
+        position: absolute;
+        background: rgba(210, 180, 140, 0.6);
+        border-radius: 50%;
+        animation: dustParticles 2s ease-out forwards;
+        pointer-events: none;
+      }
+
+      /* Efek cahaya lilin */
+      .candle-light {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 200, 100, 0.4) 0%,
+          rgba(255, 150, 50, 0.2) 40%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        filter: blur(10px);
+        animation: flicker 5s infinite alternate;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      @keyframes flicker {
+        0%,
+        100% {
+          opacity: 0.8;
+          transform: scale(1);
+        }
+        25% {
+          opacity: 0.9;
+          transform: scale(1.02);
+        }
+        50% {
+          opacity: 0.7;
+          transform: scale(0.98);
+        }
+        75% {
+          opacity: 0.85;
+          transform: scale(1.01);
+        }
+      }
+
+      /* Efek debu buku saat membuka */
+      @keyframes dustParticles {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 0;
+        }
+        20% {
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(-100px) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      .dust-particle {
+        position: absolute;
+        background: rgba(210, 180, 140, 0.6);
+        border-radius: 50%;
+        animation: dustParticles 2s ease-out forwards;
+        pointer-events: none;
+      }
+
+      /* Efek cahaya lilin */
+      .candle-light {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 200, 100, 0.4) 0%,
+          rgba(255, 150, 50, 0.2) 40%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        filter: blur(10px);
+        animation: flicker 5s infinite alternate;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      @keyframes flicker {
+        0%,
+        100% {
+          opacity: 0.8;
+          transform: scale(1);
+        }
+        25% {
+          opacity: 0.9;
+          transform: scale(1.02);
+        }
+        50% {
+          opacity: 0.7;
+          transform: scale(0.98);
+        }
+        75% {
+          opacity: 0.85;
+          transform: scale(1.01);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="memory-glow"></div>
+
+    <div class="book-container">
+      <!-- ID Card dengan tali yang bergantung -->
+      <div class="id-card-container" id="idCardContainer">
+        <div class="id-card-string"></div>
+        <div class="id-card" id="idCard">
+          <div class="id-card-hole"></div>
+          <img src="diy.png" alt="Foto Profil" class="id-card-photo" />
+          <div class="id-card-name">Mulia Risky Sipahutar</div>
+          <div class="id-card-title">NIK : 32407598</div>
+          <div class="id-card-qr"><img src="logo.png" alt="" /></div>
+        </div>
+      </div>
+
+      <!-- Cover Buku -->
+      <div class="book">
+        <div class="book-cover" id="bookCover">
+          <div class="book-cover-title">Buku Kenangan</div>
+          <div class="book-cover-subtitle">Langkah Kecil, Kenangan Besar</div>
+          <button class="book-cover-open" id="openBook">Buka Buku</button>
+        </div>
+
+        <!-- Back Cover -->
+        <div class="book-back-cover" id="bookBackCover"></div>
+
+        <!-- Halaman-halaman buku -->
+        <div class="pages-container" id="pagesContainer">
+  <!-- Halaman 1 -->
+  <div class="page visible" id="page1">
+    <div class="page-content">
+      <img src="abv 2.jpg" alt="Foto Kenangan 1" />
+      <div class="caption">
+        "Tidak terasa... hari ini adalah akhir dari perjalanan saya bersama MR.DY.
+Di tempat ini, saya tidak hanya menemukan pekerjaan—tapi keluarga, pelajaran hidup, dan versi diri yang lebih baik.
+      </div>
+    </div>
+  </div>
+  
+  <!-- Halaman 2 -->
+  <div class="page" id="page2">
+    <div class="page-content">
+      <img src="STDM.jpg" alt="Foto Kenangan 2" />
+      <div class="caption">
+        Pemimpin yang sabar, yang mengajarkan bahwa leadership bukan tentang kekuasaan, tapi tentang menginspirasi.
+      </div>
+    </div>
+  </div>
+  
+  <!-- Halaman 3 -->
+  <div class="page" id="page3">
+    <div class="page-content">
+      <img src="ST1.jpg" alt="Foto Kenangan 3" />
+      <div class="caption">
+        Hidup adalah perjalanan, setiap langkah adalah pelajaran.
+      </div>
+    </div>
+  </div>
+  
+  <!-- Halaman 4 -->
+  <div class="page" id="page4">
+    <div class="page-content">
+      <img src="OUT full.jpg" alt="Foto Kenangan 4" />
+      <div class="caption">
+        Tim terhebat yang selalu ada di saat senang maupun deadline menumpuk.
+      </div>
+    </div>
+  </div>
+  
+  <!-- Halaman 6 -->
+  <div class="page" id="page5">
+    <div class="page-content">
+      <img src="abmnew.jpg" alt="Foto Kenangan 5" />
+      <div class="caption">
+        terima kasih telah menjadi pemimpin yang tidak hanya memberi kepercayaan, tetapi juga motivasi tanpa henti. Setiap arahan dan dukungan Bapak menjadi bahan bakar bagi saya untuk tumbuh lebih baik. Sungguh kehormatan bisa belajar dari sosok superior seperti Bapak. Sukses selalu untuk langkah selanjutnya!
+      </div>
+    </div>
+  </div>
+  
+  <!-- Halaman 7 -->
+  <div class="page" id="page7">
+    <div class="page-content">
+      <img src="ABV salam.jpg" alt="Foto Kenangan 7" />
+      <div class="caption">
+        Hari ini, saya mungkin harus melangkah pergi.
+Tapi prinsip, kenangan, dan pelajaran dari MR.DY akan selalu saya bawa.
+      </div>
+    </div>
+  </div>
+  
+  <!-- Halaman 8 -->
+  <div class="page" id="page8">
+    <div class="page-content">
+      <img src="abv.jpg" alt="Foto Kenangan 8" />
+      <div class="caption">
+        Bukan ‘selamat tinggal’, tapi ‘sampai jumpa di lain kesempatan'
+      </div>
+    </div>
+  </div>
+
+  <!-- Tombol Close -->
+  <button class="close-book-btn" id="closeBookBtn">
+    <i class="fas fa-times"></i>
+  </button>
+
+  <!-- Page Indicators -->
+  <div class="page-indicators">
+    <div class="page-indicator active" data-page="0"></div>
+    <div class="page-indicator" data-page="1"></div>
+    <div class="page-indicator" data-page="2"></div>
+    <div class="page-indicator" data-page="3"></div>
+    <div class="page-indicator" data-page="4"></div>
+    <div class="page-indicator" data-page="5"></div>
+    <div class="page-indicator" data-page="6"></div>
+  </div>
+
+  <!-- Swipe Hint -->
+  <div class="swipe-hint">
+    <i class="fas fa-arrow-left"></i>
+    <i class="fas fa-arrow-right"></i>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <div class="navigation">
+    <button onclick="balikHalaman(-1)" id="prevBtn" disabled>
+      <i class="fas fa-arrow-left"></i> Sebelumnya
+    </button>
+    <button onclick="balikHalaman(1)" id="nextBtn">
+      Berikutnya <i class="fas fa-arrow-right"></i>
+    </button>
+  </div>
+</div>
+
+    <div class="music-control" id="musicControl">
+      <i class="fas fa-music"></i>
+    </div>
+
+    <div class="fullscreen-btn" id="fullscreenBtn">
+      <i class="fas fa-expand"></i>
+    </div>
+
+    <audio id="backgroundMusic" loop>
+      <source src="musiku.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script>
+      // Variabel global
+      let halamanSekarang = 0;
+      const semuaHalaman = document.querySelectorAll(".page");
+      const indikatorHalaman = document.querySelectorAll(".page-indicator");
+      const tombolSebelumnya = document.getElementById("prevBtn");
+      const tombolBerikutnya = document.getElementById("nextBtn");
+      const kontrolMusik = document.getElementById("musicControl");
+      const musikLatar = document.getElementById("backgroundMusic");
+      const tombolFullscreen = document.getElementById("fullscreenBtn");
+      const idCardContainer = document.getElementById("idCardContainer");
+      const idCard = document.getElementById("idCard");
+      const bookCover = document.getElementById("bookCover");
+      const bookBackCover = document.getElementById("bookBackCover");
+      const openBookBtn = document.getElementById("openBook");
+      const closeBookBtn = document.getElementById("closeBookBtn");
+      const pagesContainer = document.getElementById("pagesContainer");
+      let musikMenyala = false;
+      let bukuTerbuka = false;
+      let posisiSwipeAwal = 0;
+      let posisiSwipeAkhir = 0;
+
+      // Inisialisasi saat halaman dimuat
+      document.addEventListener("DOMContentLoaded", () => {
+        // Coba memutar musik otomatis
+        const promisePutarMusik = musikLatar.play();
+
+        if (promisePutarMusik !== undefined) {
+          promisePutarMusik
+            .then((_) => {
+              musikMenyala = true;
+              kontrolMusik.innerHTML = '<i class="fas fa-pause"></i>';
+            })
+            .catch((error) => {
+              musikMenyala = false;
+              kontrolMusik.innerHTML = '<i class="fas fa-music"></i>';
+            });
+        }
+
+        // Tambahkan fungsi zoom pada gambar
+        document.querySelectorAll(".page img").forEach((gambar) => {
+          gambar.addEventListener("click", function () {
+            this.classList.toggle("zoomed");
+          });
+        });
+
+        // Sembunyikan container halaman awalnya
+        pagesContainer.style.display = "none";
+        bookBackCover.style.opacity = "0";
+      });
+
+      // Fungsi untuk membuka buku
+      openBookBtn.addEventListener("click", bukaBuku);
+      closeBookBtn.addEventListener("click", tutupBuku);
+
+      function bukaBuku() {
+        if (!bukuTerbuka) {
+          // Animasi membuka buku
+          bookCover.style.transform = "rotateY(-160deg)";
+          bookCover.style.opacity = "0.5";
+          bookCover.style.zIndex = "0";
+
+          // Tampilkan back cover
+          bookBackCover.style.opacity = "1";
+          bookBackCover.style.zIndex = "1";
+
+          // Animasi ID card masuk ke dalam buku
+          idCardContainer.style.transform =
+            "translate(-100px, -50%) rotate(-5deg)";
+          idCardContainer.style.opacity = "0.8";
+
+          // Tampilkan halaman-halaman setelah animasi selesai
+          setTimeout(() => {
+            pagesContainer.style.display = "block";
+            closeBookBtn.style.opacity = "1";
+            closeBookBtn.style.pointerEvents = "auto";
+            bukuTerbuka = true;
+
+            // Setel halaman pertama sebagai visible
+            semuaHalaman.forEach((halaman, index) => {
+              if (index === 0) {
+                halaman.classList.add("visible");
+              } else {
+                halaman.classList.remove("visible");
+              }
+            });
+
+            perbaruiNavigasi();
+          }, 800);
+        }
+      }
+
+      function tutupBuku() {
+        if (bukuTerbuka) {
+          // Sembunyikan tombol tutup
+          closeBookBtn.style.opacity = "0";
+          closeBookBtn.style.pointerEvents = "none";
+
+          // Sembunyikan halaman-halaman
+          pagesContainer.style.display = "none";
+
+          // Animasi ID card kembali ke posisi semula
+          idCardContainer.style.transform = "translateY(-50%)";
+          idCardContainer.style.opacity = "1";
+
+          // Animasi menutup buku
+          bookCover.style.transform = "rotateY(0deg)";
+          bookCover.style.opacity = "1";
+          bookCover.style.zIndex = "2";
+
+          // Sembunyikan back cover
+          bookBackCover.style.opacity = "0";
+          bookBackCover.style.zIndex = "0";
+
+          bukuTerbuka = false;
+        }
+      }
+
+      // Fungsi untuk navigasi halaman
+      function perbaruiNavigasi() {
+        tombolSebelumnya.disabled = halamanSekarang === 0;
+        tombolBerikutnya.disabled = halamanSekarang === semuaHalaman.length - 1;
+
+        indikatorHalaman.forEach((indikator, index) => {
+          indikator.classList.toggle("active", index === halamanSekarang);
+        });
+      }
+
+      function balikHalaman(arah) {
+        semuaHalaman[halamanSekarang].classList.remove("visible");
+        semuaHalaman[halamanSekarang].classList.add("flip");
+
+        if (arah === 1 && halamanSekarang < semuaHalaman.length - 1) {
+          halamanSekarang++;
+        } else if (arah === -1 && halamanSekarang > 0) {
+          halamanSekarang--;
+        }
+
+        semuaHalaman.forEach((halaman, index) => {
+          if (index !== halamanSekarang) {
+            halaman.classList.remove("visible");
+          }
+        });
+
+        semuaHalaman[halamanSekarang].classList.remove("flip");
+        semuaHalaman[halamanSekarang].classList.add("visible");
+
+        perbaruiNavigasi();
+      }
+
+      // Fungsi untuk navigasi dengan geser (swipe)
+      document.addEventListener(
+        "touchstart",
+        (e) => {
+          posisiSwipeAwal = e.changedTouches[0].screenX;
+        },
+        { passive: true }
+      );
+
+      document.addEventListener(
+        "touchend",
+        (e) => {
+          posisiSwipeAkhir = e.changedTouches[0].screenX;
+          handleSwipe();
+        },
+        { passive: true }
+      );
+
+      function handleSwipe() {
+        if (!bukuTerbuka) return;
+
+        const jarakMinimal = 50;
+        if (posisiSwipeAkhir < posisiSwipeAwal - jarakMinimal) {
+          if (halamanSekarang < semuaHalaman.length - 1) balikHalaman(1);
+        } else if (posisiSwipeAkhir > posisiSwipeAwal + jarakMinimal) {
+          if (halamanSekarang > 0) balikHalaman(-1);
+        }
+      }
+
+      // Navigasi dengan keyboard
+      document.addEventListener("keydown", (e) => {
+        if (!bukuTerbuka) return;
+
+        if (
+          e.key === "ArrowRight" &&
+          halamanSekarang < semuaHalaman.length - 1
+        ) {
+          balikHalaman(1);
+        } else if (e.key === "ArrowLeft" && halamanSekarang > 0) {
+          balikHalaman(-1);
+        }
+      });
+
+      // Navigasi dengan klik indikator halaman
+      indikatorHalaman.forEach((indikator) => {
+        indikator.addEventListener("click", () => {
+          if (!bukuTerbuka) return;
+
+          const targetHalaman = parseInt(indikator.dataset.page);
+          if (targetHalaman !== halamanSekarang) {
+            const arah = targetHalaman > halamanSekarang ? 1 : -1;
+            while (halamanSekarang !== targetHalaman) {
+              balikHalaman(arah);
+            }
+          }
+        });
+      });
+
+      // Kontrol musik
+      kontrolMusik.addEventListener("click", () => {
+        if (musikMenyala) {
+          musikLatar.pause();
+          kontrolMusik.innerHTML = '<i class="fas fa-music"></i>';
+        } else {
+          musikLatar.play();
+          kontrolMusik.innerHTML = '<i class="fas fa-pause"></i>';
+        }
+        musikMenyala = !musikMenyala;
+      });
+
+      // Kontrol fullscreen
+      tombolFullscreen.addEventListener("click", toggleFullscreen);
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch((err) => {
+            console.error(`Gagal masuk mode fullscreen: ${err.message}`);
+          });
+          tombolFullscreen.innerHTML = '<i class="fas fa-compress"></i>';
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+            tombolFullscreen.innerHTML = '<i class="fas fa-expand"></i>';
+          }
+        }
+      }
+
+      // Tambahkan di bagian JavaScript yang sudah ada
+      idCard.addEventListener("mouseenter", () => {
+        idCard.style.transform = "rotate(5deg)";
+        idCard.style.boxShadow =
+          "0 15px 40px rgba(161, 138, 138, 0.4), 0 0 0 2px #fff, 0 0 0 4px #d4af37";
+      });
+
+      idCard.addEventListener("mouseleave", () => {
+        idCard.style.transform = "rotate(0deg)";
+        idCard.style.boxShadow =
+          "0 10px 30px rgba(161, 138, 138, 0.3), 0 0 0 2px #fff, 0 0 0 4px #d4af37";
+      });
+
+      // Tambahkan di bagian JavaScript yang sudah ada
+      function createDustParticles() {
+        if (!bukuTerbuka) return;
+
+        const pagesContainer = document.getElementById("pagesContainer");
+        const particleCount = 20;
+
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement("div");
+          particle.className = "dust-particle";
+
+          // Random position and size
+          const size = Math.random() * 4 + 1;
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+          particle.style.left = `${Math.random() * 100}%`;
+          particle.style.top = `${Math.random() * 100}%`;
+          particle.style.animationDelay = `${Math.random() * 0.5}s`;
+
+          pagesContainer.appendChild(particle);
+
+          // Remove after animation
+          setTimeout(() => {
+            particle.remove();
+          }, 2000);
+        }
+      }
+
+      // Panggil fungsi saat membuka buku
+      openBookBtn.addEventListener("click", () => {
+        setTimeout(createDustParticles, 800);
+      });
+
+      // Tambahkan efek cahaya lilin
+      const candleLight = document.createElement("div");
+      candleLight.className = "candle-light";
+      candleLight.style.top = "20%";
+      candleLight.style.left = "10%";
+      document.body.appendChild(candleLight);
+
+      // Pindahkan posisi cahaya secara acak
+      setInterval(() => {
+        candleLight.style.top = `${10 + Math.random() * 20}%`;
+        candleLight.style.left = `${5 + Math.random() * 15}%`;
+      }, 3000);
+    </script>
+  </body>
+</html>
